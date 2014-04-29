@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="functionaljava">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/functionaljava.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
