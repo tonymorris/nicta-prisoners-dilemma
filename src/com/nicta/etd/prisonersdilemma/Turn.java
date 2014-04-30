@@ -43,10 +43,7 @@ public final class Turn {
 
   // scoring for "mine"
   public <A> Result<A> score(final Scoring<A> s) {
-    return mine.isCooperate() && theirs.isCooperate() ? result(s.mutualCooperation(), s.mutualCooperation()) :
-           mine.isDefect() && theirs.isDefect() ? result(s.mutualDefection(), s.mutualDefection()) :
-           mine.isCooperate() && theirs.isDefect() ? result(s.duped(), s.freedom()) :
-               result(s.freedom(), s.duped());
+    return result(s.score(this), s.score(switchTurn()));
   }
 
   public static final Turn bothCooperate =

@@ -39,6 +39,16 @@ public final class Scoring<A> {
     return duped;
   }
 
+  public A score(final Turn t) {
+    return t.mine().isCooperate() && t.theirs().isCooperate() ?
+      mutualCooperation :
+           t.mine().isDefect() && t.theirs().isDefect() ?
+               mutualDefection :
+                    t.mine().isCooperate() && t.theirs().isDefect() ?
+                        duped :
+                        freedom;
+  }
+
   public static <A> Scoring<A> single(final A a) {
     return new Scoring<A>(a, a, a, a);
   }
