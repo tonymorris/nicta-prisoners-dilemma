@@ -28,6 +28,14 @@ public abstract class ChoiceState<A> {
     });
   }
 
+  public P2<ChoiceHistory, A> start() {
+    return run(ChoiceHistory.empty);
+  }
+
+  public A evalStart() {
+    return start()._2();
+  }
+
   public static <A> ChoiceState<A> insert(final A a) {
     return choiceState(h -> p(h, a));
   }

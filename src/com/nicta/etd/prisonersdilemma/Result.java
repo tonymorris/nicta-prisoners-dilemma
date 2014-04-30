@@ -31,4 +31,9 @@ public final class Result<A> {
   public static <A> Result<A> result(final A mine, final A theirs) {
     return new Result<A>(mine, theirs);
   }
+
+  @Override
+  public String toString() {
+    return "Result " + mine + " : " + theirs;
+  }
 }

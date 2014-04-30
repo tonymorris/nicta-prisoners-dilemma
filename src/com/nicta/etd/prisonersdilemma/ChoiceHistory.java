@@ -17,4 +17,7 @@ public final class ChoiceHistory {
   public ChoiceHistory add(final Turn t) {
     return new ChoiceHistory(list.cons(t));
   }
+
+  public final static ChoiceHistory empty =
+      new ChoiceHistory(List.nil());
 }

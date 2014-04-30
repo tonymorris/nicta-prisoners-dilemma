@@ -47,4 +47,12 @@ public abstract class Play<C, A> {
     return game(n, Monoid.intAdditionMonoid);
   }
 
+  public static <A> A playIt(final Play<Integer, A> p, final Strategy<Choice> mine, final Strategy<Choice> theirs) {
+    return p.run(Scoring.defaultScoring, mine, theirs).evalStart();
+  }
+
+  public static Result<Integer> playIt(final int n, final Strategy<Choice> mine, final Strategy<Choice> theirs) {
+    return Play.playIt(Play.game(n), mine, theirs);
+  }
+
 }
