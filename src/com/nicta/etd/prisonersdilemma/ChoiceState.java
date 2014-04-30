@@ -28,6 +28,10 @@ public abstract class ChoiceState<A> {
     });
   }
 
+  public static <A> ChoiceState<A> insert(final A a) {
+    return choiceState(h -> p(h, a));
+  }
+
   public static <A> ChoiceState<A> choiceState(final F<ChoiceHistory, P2<ChoiceHistory, A>> f) {
     return new ChoiceState<A>() {
       public P2<ChoiceHistory, A> run(final ChoiceHistory h) {

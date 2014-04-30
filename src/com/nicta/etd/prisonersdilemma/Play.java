@@ -1,7 +1,9 @@
 package com.nicta.etd.prisonersdilemma;
 
-import fj.F;
-import fj.F3;
+import fj.*;
+
+import static com.nicta.etd.prisonersdilemma.ChoiceState.choiceState;
+import static com.nicta.etd.prisonersdilemma.Turn.turn;
 
 public abstract class Play<C, A> {
   abstract ChoiceState<A> run(Scoring<C> s, Strategy<Choice> mine, Strategy<Choice> theirs);
@@ -14,6 +16,10 @@ public abstract class Play<C, A> {
     return play((s, m, t) -> run(s, m, t).bind(a -> f.f(a).run(s, m, t)));
   }
 
+  public static <C, A> Play<C, A> insert(final A a) {
+    return play((s, m, t) -> ChoiceState.insert(a));
+  }
+
   public static <C, A> Play<C, A> play(final F3<Scoring<C>, Strategy<Choice>, Strategy<Choice>, ChoiceState<A>> f) {
     return new Play<C, A>() {
       ChoiceState<A> run(final Scoring<C> s, final Strategy<Choice> mine, final Strategy<Choice> theirs) {
@@ -21,4 +27,24 @@ public abstract class Play<C, A> {
       }
     };
   }
+
+  public static <T> Play<T, Result<T>> game() {
+    return play((s, m, t) -> choiceState(h -> {
+      final Choice mineChoice = m.run(h);
+      final Choice theirsChoice = t.run(h);
+      final Turn u = turn(mineChoice, theirsChoice);
+      return P.p(h.add(u), u.score(s));
+    }));
+  }
+
+  public static <T> Play<T, Result<T>> game(final int n, final Monoid<T> m) {
+    return n <= 0 ?
+        insert(Result.empty(m))
+        : Play.<T>game().bind(r -> game(n - 1, m).map(s -> r.add(s, m.semigroup())));
+  }
+
+  public static Play<Integer, Result<Integer>> game(final int n) {
+    return game(n, Monoid.intAdditionMonoid);
+  }
+
 }

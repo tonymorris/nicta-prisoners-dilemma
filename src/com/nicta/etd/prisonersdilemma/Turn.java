@@ -60,4 +60,8 @@ public final class Turn {
 
   public static final Turn defectCooperate =
       new Turn(Defect, Cooperate);
+
+  public static Turn turn(final Choice mine, final Choice theirs) {
+    return new Turn(mine, theirs);
+  }
 }
