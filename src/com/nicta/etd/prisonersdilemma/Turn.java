@@ -5,43 +5,42 @@ import static com.nicta.etd.prisonersdilemma.Choice.Defect;
 import static com.nicta.etd.prisonersdilemma.Result.result;
 
 public final class Turn {
-  private final Choice mine;
-  private final Choice theirs;
+  private final Choice player1;
+  private final Choice player2;
 
-  private Turn(final Choice mine, final Choice theirs) {
-    this.mine = mine;
-    this.theirs = theirs;
+  private Turn(final Choice player1, final Choice player2) {
+    this.player1 = player1;
+    this.player2 = player2;
   }
 
-  public Choice mine() {
-    return mine;
+  public Choice player1() {
+    return player1;
   }
 
-  public Choice theirs() {
-    return theirs;
+  public Choice player2() {
+    return player2;
   }
 
-  public Turn setMine(final Choice c) {
-    return new Turn(c, theirs);
+  public Turn setPlayer1(final Choice c) {
+    return new Turn(c, player2);
   }
 
-  public Turn setTheirs(final Choice c) {
-    return new Turn(mine, c);
+  public Turn setPlayer2(final Choice c) {
+    return new Turn(player1, c);
   }
 
-  public Turn invertMine() {
-    return setMine(mine.invert());
+  public Turn invertPlayer1() {
+    return setPlayer1(player1.invert());
   }
 
-  public Turn invertTheirs() {
-    return setTheirs(theirs.invert());
+  public Turn invertPlayer2() {
+    return setPlayer2(player2.invert());
   }
 
   public Turn switchTurn() {
-    return new Turn(theirs, mine);
+    return new Turn(player2, player1);
   }
 
-  // scoring for "mine"
   public <A> Result<A> score(final Scoring<A> s) {
     return result(s.score(this), s.score(switchTurn()));
   }
@@ -58,7 +57,7 @@ public final class Turn {
   public static final Turn defectCooperate =
       new Turn(Defect, Cooperate);
 
-  public static Turn turn(final Choice mine, final Choice theirs) {
-    return new Turn(mine, theirs);
+  public static Turn turn(final Choice player1, final Choice player2) {
+    return new Turn(player1, player2);
   }
 }

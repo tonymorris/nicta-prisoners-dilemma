@@ -40,11 +40,11 @@ public final class Scoring<A> {
   }
 
   public A score(final Turn t) {
-    return t.mine().isCooperate() && t.theirs().isCooperate() ?
+    return t.player1().isCooperate() && t.player2().isCooperate() ?
       mutualCooperation :
-           t.mine().isDefect() && t.theirs().isDefect() ?
+           t.player1().isDefect() && t.player2().isDefect() ?
                mutualDefection :
-                    t.mine().isCooperate() && t.theirs().isDefect() ?
+                    t.player1().isCooperate() && t.player2().isDefect() ?
                         duped :
                         freedom;
   }
