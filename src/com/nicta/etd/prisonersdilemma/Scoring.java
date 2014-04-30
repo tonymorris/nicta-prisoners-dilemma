@@ -31,7 +31,7 @@ public final class Scoring<A> {
     return mutualCooperation;
   }
 
-  public A getMutualDefection() {
+  public A mutualDefection() {
     return mutualDefection;
   }
 
