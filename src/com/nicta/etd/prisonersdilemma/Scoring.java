@@ -44,5 +44,5 @@ public final class Scoring<A> {
   }
 
   public static final Scoring<Integer> defaultScoring =
-      new Scoring<Integer>(0, 1, 3, 5);
+      new Scoring<>(0, 1, 3, 5);
 }
