@@ -6,6 +6,7 @@ import static com.nicta.etd.prisonersdilemma.ChoiceState.choiceState;
 import static com.nicta.etd.prisonersdilemma.Player.Player1;
 import static com.nicta.etd.prisonersdilemma.Player.Player2;
 import static com.nicta.etd.prisonersdilemma.Turn.turn;
+import static fj.P.p;
 
 public abstract class Play<C, A> {
   abstract ChoiceState<A> run(Scoring<C> s, Strategy<Choice> player1, Strategy<Choice> player2);
@@ -31,11 +32,11 @@ public abstract class Play<C, A> {
   }
 
   public static <T> Play<T, Result<T>> game() {
-    return play((s, m, t) -> choiceState(h -> {
-      final Choice player1Choice = m.run(h, Player1);
-      final Choice player2Choice = t.run(h, Player2);
+    return play((s, p1, p2) -> choiceState(h -> {
+      final Choice player1Choice = p1.run(h, Player1);
+      final Choice player2Choice = p2.run(h, Player2);
       final Turn u = turn(player1Choice, player2Choice);
-      return P.p(h.add(u), u.score(s));
+      return p(h.add(u), s.score(u));
     }));
   }
 

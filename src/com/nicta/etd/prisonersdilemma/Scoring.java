@@ -2,6 +2,8 @@ package com.nicta.etd.prisonersdilemma;
 
 import fj.F;
 
+import static com.nicta.etd.prisonersdilemma.Result.result;
+
 public final class Scoring<A> {
   private final A freedom; // 0
   private final A mutualCooperation; // 1
@@ -39,15 +41,16 @@ public final class Scoring<A> {
     return duped;
   }
 
-  public A score(final Turn t) {
+  public Result<A> score(final Turn t) {
     return t.player1().isCooperate() && t.player2().isCooperate() ?
-      mutualCooperation :
+      result(mutualCooperation, mutualCooperation) :
            t.player1().isDefect() && t.player2().isDefect() ?
-               mutualDefection :
+               result(mutualDefection, mutualDefection) :
                     t.player1().isCooperate() && t.player2().isDefect() ?
-                        duped :
-                        freedom;
+                        result(duped, freedom) :
+                        result(freedom, duped);
   }
+
 
   public static <A> Scoring<A> single(final A a) {
     return new Scoring<A>(a, a, a, a);

@@ -41,10 +41,6 @@ public final class Turn {
     return new Turn(player2, player1);
   }
 
-  public <A> Result<A> score(final Scoring<A> s) {
-    return result(s.score(this), s.score(switchTurn()));
-  }
-
   public static final Turn bothCooperate =
       new Turn(Cooperate, Cooperate);
 
@@ -59,5 +55,10 @@ public final class Turn {
 
   public static Turn turn(final Choice player1, final Choice player2) {
     return new Turn(player1, player2);
+  }
+
+  @Override
+  public String toString() {
+    return "Turn(" + player1 + "," + player2 + ")";
   }
 }

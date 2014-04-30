@@ -34,6 +34,6 @@ public final class Result<A> {
 
   @Override
   public String toString() {
-    return "Result " + player1 + " : " + player2;
+    return "Result(" + player1 + "," + player2 + ")";
   }
 }

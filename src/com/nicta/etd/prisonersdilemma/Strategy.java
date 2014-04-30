@@ -52,4 +52,8 @@ public abstract class Strategy<A> {
 
   public final static Strategy<Choice> spite =
       usingLastTurn(Cooperate, t -> t.player1().isDefect() || t.player2().isDefect() ? Defect : Cooperate);
+
+  public static Strategy<Choice> alternate(final Choice start) {
+    return usingLastTurnPlayer(start, (t, p) -> p.isPlayer1() ? t.player1().invert() : t.player2().invert());
+  }
 }
