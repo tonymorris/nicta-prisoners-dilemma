@@ -2,6 +2,10 @@ package com.nicta.etd.prisonersdilemma;
 
 import fj.F;
 
+import static com.nicta.etd.prisonersdilemma.Choice.Cooperate;
+import static com.nicta.etd.prisonersdilemma.Choice.Defect;
+import static com.nicta.etd.prisonersdilemma.Choice.random;
+
 public abstract class Strategy<A> {
   public abstract A run(ChoiceHistory h);
 
@@ -20,4 +24,28 @@ public abstract class Strategy<A> {
       }
     };
   }
+
+  public final static Strategy<Choice> alwaysDefect =
+      constant(Defect);
+
+  public final static Strategy<Choice> alwaysCooperate =
+      constant(Cooperate);
+
+  // We just used a variable. DANGER.
+  public final static Strategy<Choice> random =
+      strategy(x -> random());
+
+  public static <A> Strategy<A> constant(final A a) {
+    return strategy(x -> a);
+  }
+
+  public static Strategy<Choice> usingLastTurn(final Choice c, final F<Turn, Choice> f) {
+    return strategy(h -> h.previousTurn().option(c, f));
+  }
+
+  public final static Strategy<Choice> titForTat =
+      usingLastTurn(Cooperate, Turn::theirs);
+
+  public final static Strategy<Choice> spite =
+      usingLastTurn(Cooperate, t -> t.mine().isDefect() || t.theirs().isDefect() ? Defect : Cooperate);
 }
